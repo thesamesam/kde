@@ -15,7 +15,7 @@ DESCRIPTION="KDE Plasma desktop"
 LICENSE="GPL-2" # TODO: CHECK
 SLOT="6"
 KEYWORDS=""
-IUSE="ibus scim screencast +semantic-desktop" # +kaccounts
+IUSE="ibus +kaccounts scim screencast +semantic-desktop"
 
 # kde-frameworks/kwindowsystem[X]: Uses KX11Extras
 COMMON_DEPEND="
@@ -79,13 +79,13 @@ COMMON_DEPEND="
 		x11-libs/libxcb
 		x11-libs/xcb-util-keysyms
 	)
+	kaccounts? (
+		kde-apps/kaccounts-integration:6
+		>=net-libs/accounts-qt-1.16-r1[qt6]
+	)
 	scim? ( app-i18n/scim )
 	semantic-desktop? ( >=kde-frameworks/baloo-${KFMIN}:6 )
 "
-# 	kaccounts? (
-# 		kde-apps/kaccounts-integration:6
-# 		net-libs/accounts-qt
-# 	)
 DEPEND="${COMMON_DEPEND}
 	>=dev-libs/wayland-protocols-1.25
 	dev-libs/boost
@@ -103,9 +103,9 @@ RDEPEND="${COMMON_DEPEND}
 	sys-apps/util-linux
 	x11-apps/setxkbmap
 	x11-misc/xdg-user-dirs
+	kaccounts? ( >=net-libs/signon-oauth2-0.25-r1[qt6] )
 	screencast? ( >=kde-plasma/kpipewire-${PVCUT}:6 )
 "
-# 	kaccounts? ( net-libs/signon-oauth2 )
 BDEPEND="
 	dev-util/wayland-scanner
 	>=kde-frameworks/kcmutils-${KFMIN}:6
@@ -130,8 +130,8 @@ src_configure() {
 	local mycmakeargs=(
 		-DCMAKE_DISABLE_FIND_PACKAGE_PackageKitQt6=ON # not packaged
 		$(cmake_use_find_package ibus GLIB2)
-# 		$(cmake_use_find_package kaccounts AccountsQt6)
-# 		$(cmake_use_find_package kaccounts KAccounts)
+		$(cmake_use_find_package kaccounts AccountsQt6)
+		$(cmake_use_find_package kaccounts KAccounts)
 		$(cmake_use_find_package semantic-desktop KF6Baloo)
 	)
 
