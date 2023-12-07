@@ -13,7 +13,7 @@ DESCRIPTION="A friendly onboarding wizard for Plasma"
 LICENSE="GPL-2+"
 SLOT="6"
 KEYWORDS=""
-IUSE="discover telemetry" # +kaccounts
+IUSE="discover +kaccounts telemetry"
 
 DEPEND="
 	>=dev-qt/qtbase-${QTMIN}:6[gui,network,widgets]
@@ -31,9 +31,9 @@ DEPEND="
 	>=kde-frameworks/kservice-${KFMIN}:6
 	>=kde-frameworks/kwindowsystem-${KFMIN}:6
 	>=kde-plasma/libplasma-${PVCUT}:6
+	kaccounts? ( kde-apps/kaccounts-integration:6 )
 	telemetry? ( >=kde-frameworks/kuserfeedback-${KFMIN}:6 )
 "
-# 	kaccounts? ( kde-apps/kaccounts-integration:6 )
 RDEPEND="${DEPEND}
 	discover? ( kde-plasma/discover:6 )
 "
@@ -49,7 +49,7 @@ src_prepare() {
 
 src_configure() {
 	local mycmakeargs=(
-# 		$(cmake_use_find_package kaccounts KAccounts)
+		$(cmake_use_find_package kaccounts KAccounts)
 		$(cmake_use_find_package telemetry KF6UserFeedback)
 	)
 	ecm_src_configure
